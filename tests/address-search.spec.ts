@@ -1,13 +1,15 @@
 import { test } from '../fixture/page.fixture';
-import { validAddressSearch } from '../test-data/address-search.data';
+import { addressSearchData } from '../test-data/address-search.data';
 
 test.describe('Address search', () => {
-  test(`${validAddressSearch.id} | REQ-AS-001 | finds a valid three-word address`, async ({
+  test('TC-AS-005 | REQ-AS-003, REQ-AS-004 | finds a valid English what3words address', async ({
     mapPage,
   }) => {
+    const testData = addressSearchData.englishThreeWord;
+
     await mapPage.open();
     await mapPage.handleOptionalConsent();
-    await mapPage.searchForAddress(validAddressSearch.address);
-    await mapPage.assertAddressSelected(validAddressSearch.expectedAddress);
+    await mapPage.searchForAddress(testData.address);
+    await mapPage.assertAddressSelected(testData.expectedAddress);
   });
 });
