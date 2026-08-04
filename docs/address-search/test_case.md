@@ -3,7 +3,7 @@
 ## Common preconditions
 
 - Chromium is installed for Playwright.
-- `BASE_URL` resolves to the public what3words map; otherwise the default URL is used.
+- The public what3words map is available at `https://what3words.com/`.
 - The optional cookie-consent prompt is accepted when displayed.
 
 ## Test classification
@@ -127,3 +127,27 @@ Locators must remain private inside `MapPage`. Test specs should call behavior-l
 ## Automation status
 
 All seven documented cases are implemented in `tests/address-search.spec.ts` using the shared `MapPage` fixture and semantic test data.
+
+## Latest execution result
+
+| Field       | Value                                      |
+| ----------- | ------------------------------------------ |
+| Executed on | 2026-08-04                                 |
+| Environment | Public what3words website                  |
+| Browser     | Chromium, headed mode                      |
+| Workers     | 1                                          |
+| Command     | `npx playwright test --headed --workers=1` |
+| Result      | 7 passed, 0 failed                         |
+| Total time  | 30.9 seconds                               |
+
+| Test case | Status | Duration |
+| --------- | ------ | -------- |
+| TC-AS-001 | Passed | 4.0 s    |
+| TC-AS-002 | Passed | 3.5 s    |
+| TC-AS-003 | Passed | 5.2 s    |
+| TC-AS-004 | Passed | 4.3 s    |
+| TC-AS-005 | Passed | 4.7 s    |
+| TC-AS-006 | Passed | 4.9 s    |
+| TC-AS-007 | Passed | 3.2 s    |
+
+Durations are observations from this execution, not performance acceptance criteria. Network conditions and the public search provider can affect later runs, so this table should be replaced with the latest verified result before a release or assessment submission.
