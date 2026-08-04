@@ -45,7 +45,7 @@ When the visitor selects the `X` control, the application must:
 2. After the visitor enters a valid normal place or street address, the application must display five recommendations.
 3. After the visitor enters a valid English or Vietnamese what3words address, the application must display three recommendations.
 4. The visitor must be able to select the first recommendation.
-5. For the normal-address query `77 vo van kiet`, the first recommendation must identify `///mãng cầu.bờm tóc.hè phố`.
+5. Recommendation content for normal place and street searches is supplied by an external provider and may change; automation must select the first visible recommendation without hard-coding its text.
 
 ### REQ-AS-004 - Selected-location result
 
@@ -54,7 +54,7 @@ After the visitor selects the first recommendation:
 1. The map must update to show the selected location.
 2. A what3words address beginning with `///` must be visible below the search bar.
 3. The `Share`, `Navigate`, and `Save` actions must be visible.
-4. For `77 vo van kiet`, the displayed what3words address must be `///mãng cầu.bờm tóc.hè phố`.
+4. For a normal place or street search, the selected address must differ from the previously displayed address and the URL must update to the selected three-word address.
 
 ### REQ-AS-005 - Invalid address handling
 
@@ -63,7 +63,7 @@ When the visitor searches for an address that cannot be found, the application m
 > **No address found.**  
 > Please try searching for the town or nearby place and zoom in to find the what3words address.
 
-The invalid query `fdasfdsa` must produce this warning.
+Submitting the invalid query `fdasfdsa` with the Enter key must produce this warning.
 
 ## Search examples
 
@@ -75,10 +75,10 @@ The invalid query `fdasfdsa` must produce this warning.
 
 ## Traceability
 
-| Requirement | Test cases             | Automated spec                                           |
-| ----------- | ---------------------- | -------------------------------------------------------- |
-| REQ-AS-001  | TC-AS-001              | Not yet automated                                        |
-| REQ-AS-002  | TC-AS-002              | Not yet automated                                        |
-| REQ-AS-003  | TC-AS-003 to TC-AS-006 | `tests/address-search.spec.ts` provides initial coverage |
-| REQ-AS-004  | TC-AS-003 to TC-AS-006 | `tests/address-search.spec.ts` provides initial coverage |
-| REQ-AS-005  | TC-AS-007              | Not yet automated                                        |
+| Requirement | Test cases             | Automated spec                              |
+| ----------- | ---------------------- | ------------------------------------------- |
+| REQ-AS-001  | TC-AS-001              | Automated in `tests/address-search.spec.ts` |
+| REQ-AS-002  | TC-AS-002              | Automated in `tests/address-search.spec.ts` |
+| REQ-AS-003  | TC-AS-003 to TC-AS-006 | Automated in `tests/address-search.spec.ts` |
+| REQ-AS-004  | TC-AS-003 to TC-AS-006 | Automated in `tests/address-search.spec.ts` |
+| REQ-AS-005  | TC-AS-007              | Automated in `tests/address-search.spec.ts` |

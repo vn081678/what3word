@@ -1,11 +1,7 @@
-export type SearchInputType = 'street-address' | 'place' | 'what3words-en' | 'what3words-vi';
-
 export interface AddressSearchData {
-  readonly inputType: SearchInputType;
   readonly address: string;
-  readonly expectedAddress: string;
   readonly expectedRecommendationCount: number;
-  readonly expectedFirstRecommendation?: string;
+  readonly expectedThreeWordAddress?: string;
 }
 
 export interface InvalidAddressSearchData {
@@ -16,29 +12,22 @@ export interface InvalidAddressSearchData {
 
 export const addressSearchData = {
   streetAddress: {
-    inputType: 'street-address',
     address: '77 vo van kiet',
-    expectedAddress: 'mãng cầu.bờm tóc.hè phố',
     expectedRecommendationCount: 5,
-    expectedFirstRecommendation: 'mãng cầu.bờm tóc.hè phố',
   },
   place: {
-    inputType: 'place',
     address: 'Ho Chi Minh City',
-    expectedAddress: 'Ho Chi Minh City',
     expectedRecommendationCount: 5,
   },
   englishThreeWord: {
-    inputType: 'what3words-en',
     address: '///become.outlooks.rising',
-    expectedAddress: 'become.outlooks.rising',
     expectedRecommendationCount: 3,
+    expectedThreeWordAddress: 'become.outlooks.rising',
   },
   vietnameseThreeWord: {
-    inputType: 'what3words-vi',
     address: '///viết chữ.âm nhạc.an nhàn',
-    expectedAddress: 'viết chữ.âm nhạc.an nhàn',
     expectedRecommendationCount: 3,
+    expectedThreeWordAddress: 'viết chữ.âm nhạc.an nhàn',
   },
 } as const satisfies Record<string, AddressSearchData>;
 

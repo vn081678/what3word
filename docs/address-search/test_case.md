@@ -12,7 +12,7 @@
 | --------- | ---------------------------- | -------------- | ------------------------------------------ | -------- | ----------------- | ------------------------------------ |
 | TC-AS-001 | Search guidance              | UI integration | Functional, positive                       | Medium   | Regression        | Static guidance content              |
 | TC-AS-002 | Clear and dismiss            | UI integration | Functional, positive                       | High     | Regression        | Input and focus state                |
-| TC-AS-003 | Street-address search        | End-to-end     | Functional, positive                       | Critical | Smoke, regression | Vietnamese result data               |
+| TC-AS-003 | Street-address search        | End-to-end     | Functional, positive                       | Critical | Smoke, regression | Volatile external-provider result    |
 | TC-AS-004 | Place search                 | End-to-end     | Functional, positive                       | High     | Smoke, regression | Normal place name                    |
 | TC-AS-005 | English what3words search    | End-to-end     | Functional, positive                       | Critical | Smoke, regression | English three-word address           |
 | TC-AS-006 | Vietnamese what3words search | End-to-end     | Functional, positive, internationalization | High     | Regression        | UTF-8, spaces, Vietnamese characters |
@@ -45,11 +45,10 @@ The suite now covers positive searches and one invalid, no-result path. Network/
 
 1. Enter `77 vo van kiet` in the search input.
 2. Verify five recommendations are displayed.
-3. Verify the first recommendation identifies `///mãng cầu.bờm tóc.hè phố`.
-4. Select the first recommendation.
-5. Verify the map updates to the selected location.
-6. Verify `///mãng cầu.bờm tóc.hè phố` is displayed below the search bar.
-7. Verify the `Share`, `Navigate`, and `Save` actions are visible.
+3. Select the first recommendation without assuming provider-controlled result text.
+4. Verify the selected `///` address differs from the address shown before selection.
+5. Verify the URL updates to the selected three-word address.
+6. Verify the `Share`, `Navigate`, and `Save` actions are visible.
 
 ## TC-AS-004 - Search for a place
 
@@ -86,7 +85,7 @@ The suite now covers positive searches and one invalid, no-result path. Network/
 **Requirements:** REQ-AS-005
 
 1. Enter `fdasfdsa` in the search input.
-2. Submit the query if the application does not search automatically.
+2. Press Enter to submit the query.
 3. Verify the warning title `No address found.` is displayed.
 4. Verify the supporting message `Please try searching for the town or nearby place and zoom in to find the what3words address.` is displayed.
 5. Verify the invalid query is not presented as a selected location.
@@ -99,23 +98,24 @@ Locators must remain private inside `MapPage`. Test specs should call behavior-l
 
 ### Recommended `MapPage` interface
 
-| Method                                        | Responsibility                                                    | Status                                        |
-| --------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------- |
-| `open()`                                      | Navigate to the configured base URL.                              | Existing                                      |
-| `handleOptionalConsent()`                     | Dismiss the consent prompt when it is present.                    | Existing                                      |
-| `focusSearch()`                               | Focus the search input and display its guidance.                  | Add                                           |
-| `fillSearch(query)`                           | Enter a query without selecting a recommendation.                 | Add                                           |
-| `clearSearch()`                               | Select the `X` control.                                           | Add                                           |
-| `selectRecommendation(index)`                 | Select a recommendation by zero-based position.                   | Add                                           |
-| `searchForAddress(query)`                     | Convenience flow that enters a query and selects or submits it.   | Existing; retain for simple smoke coverage    |
-| `assertSearchGuidanceVisible()`               | Verify the heading and all documented guidance examples.          | Add                                           |
-| `assertClearControlVisible()`                 | Verify the `X` control is available.                              | Add                                           |
-| `assertSearchClearedAndBlurred()`             | Verify the input is empty, unfocused, and its panel is dismissed. | Add                                           |
-| `assertRecommendationCount(count)`            | Verify the exact number of displayed recommendations.             | Add                                           |
-| `assertRecommendationAddress(index, address)` | Verify the expected what3words address in a recommendation.       | Add                                           |
-| `assertSelectedLocation(address?)`            | Verify the result state and, when supplied, the selected address. | Add; replaces the narrower existing assertion |
-| `assertLocationActionsVisible()`              | Verify `Share`, `Navigate`, and `Save` are visible.               | Add                                           |
-| `assertNoAddressFound(title, message)`        | Verify the invalid-search warning title and supporting message.   | Add                                           |
+| Method                                        | Responsibility                                                    | Status   |
+| --------------------------------------------- | ----------------------------------------------------------------- | -------- |
+| `open()`                                      | Navigate to the configured base URL.                              | Existing |
+| `handleOptionalConsent()`                     | Dismiss the consent prompt when it is present.                    | Existing |
+| `focusSearch()`                               | Focus the search input and display its guidance.                  | Existing |
+| `fillSearch(query)`                           | Enter a query without selecting a recommendation.                 | Existing |
+| `clearSearch()`                               | Select the `X` control.                                           | Existing |
+| `selectRecommendation(index)`                 | Select a recommendation by zero-based position.                   | Existing |
+| `submitSearch()`                              | Submit the current query with the Enter key.                      | Existing |
+| `assertSearchGuidanceVisible()`               | Verify the heading and all documented guidance examples.          | Existing |
+| `assertClearControlVisible()`                 | Verify the `X` control is available.                              | Existing |
+| `assertSearchClearedAndBlurred()`             | Verify the input is empty, unfocused, and its panel is dismissed. | Existing |
+| `assertRecommendationCount(count)`            | Verify the exact number of displayed recommendations.             | Existing |
+| `assertRecommendationAddress(index, address)` | Verify the expected what3words address in a recommendation.       | Existing |
+| `assertSelectedLocationChanged()`             | Verify a provider-controlled result and URL navigation.           | Existing |
+| `assertSelectedAddress(address)`              | Verify an exact selected what3words address and canonical URL.    | Existing |
+| `assertLocationActionsVisible()`              | Verify `Share`, `Navigate`, and `Save` are visible.               | Existing |
+| `assertNoAddressFound(title, message)`        | Verify the invalid-search warning title and supporting message.   | Existing |
 
 ### Fixture and spec responsibilities
 
@@ -126,4 +126,4 @@ Locators must remain private inside `MapPage`. Test specs should call behavior-l
 
 ## Automation status
 
-The current `MapPage` supports navigation, optional consent handling, a composite search, and a basic selected-address assertion. The methods marked **Add** above are the required POM extensions before automating all documented cases.
+All seven documented cases are implemented in `tests/address-search.spec.ts` using the shared `MapPage` fixture and semantic test data.

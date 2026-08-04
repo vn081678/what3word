@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import { MapPage } from '../pageobject/map.page';
 
 interface PageFixtures {
@@ -10,5 +10,3 @@ export const test = base.extend<PageFixtures>({
     await use(new MapPage(page));
   },
 });
-
-export { expect };
