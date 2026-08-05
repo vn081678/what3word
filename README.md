@@ -2,6 +2,11 @@
 
 TypeScript end-to-end tests for the public [what3words map](https://what3words.com/), organized with a page-object model and traceable feature documentation.
 
+## Assessment scope
+
+- **Task 1 - Search automation:** The address-search requirements and test cases are documented in [`docs/address-search`](docs/address-search), with seven scenarios automated in [`tests/address-search.spec.ts`](tests/address-search.spec.ts).
+- **Task 2 - Sharing test design:** The Sharing requirements and manual test cases are documented in [`docs/sharing`](docs/sharing). They cover the Share interface, SMS, Email, X, Facebook, and WhatsApp. Task 2 is documentation-only and is not implemented in the Playwright suite.
+
 ## Choice of testing framework
 
 This project uses [Playwright Test](https://playwright.dev/) with TypeScript.
